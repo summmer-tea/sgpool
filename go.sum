@@ -1,0 +1,6 @@
+github.com/go-playground/pool v3.1.1+incompatible h1:wJw5mpc0s+nHhSDlHhDX3WnVuiOkzBelnL4G+xRKPF0=
+github.com/go-playground/pool v3.1.1+incompatible/go.mod h1:Ik4I+3FS83/i5eQUhmVigfpTvCFDRhKDOWvTt4O1KBs=
+github.com/ivpusic/grpool v1.0.0 h1:+FCiCo3GhfsvzfXuJWnpJUNb/VaqyYVgG8C+qvh07Rc=
+github.com/ivpusic/grpool v1.0.0/go.mod h1:WPmiAI5ExAn06vg+0JzyPzXMQutJmpb7TrBtyLJkOHQ=
+github.com/panjf2000/ants v1.3.0 h1:8pQ+8leaLc9lys2viEEr8md0U4RN6uOSUCE9bOYjQ9M=
+github.com/panjf2000/ants v1.3.0/go.mod h1:AaACblRPzq35m1g3enqYcxspbbiOJJYaxU2wMpm1cXY=
