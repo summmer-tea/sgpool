@@ -8,9 +8,6 @@ import (
 )
 
 
-
-
-
 //======================woker实现===start=====================\\
 type workersp struct {
 	ID string
@@ -38,12 +35,6 @@ func (m *workersp) GetTaskID() interface{} {
 }
 
 //======================woker实现===end=====================\\
-
-//并发池实例
-
-
-
-
 //例子演示
 func main() {
 

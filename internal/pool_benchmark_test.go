@@ -3,13 +3,16 @@
 package internal
 
 import (
-	"fmt"
-	"math/rand"
 	"strconv"
 	"testing"
-	"time"
 )
 
+
+const(
+	WORKER_NUM_10000 = 10000
+	WORKER_NUM_1000 = 1000
+	WORKER_NUM_100 = 100
+)
 
 type workersp struct {
 	ID string
@@ -19,10 +22,10 @@ type workersp struct {
 func (m *workersp) Task() error {
 
 	//fmt.Println("job:" + m.ID + "runing...")
-	timen := rand.Intn(3)
+	//timen := rand.Intn(3)
 	//fmt.Println(timen,"seconds")
-	time.Sleep(time.Second * time.Duration(timen))
-	fmt.Println("job:" + m.ID + "over")
+	//time.Sleep(time.Second * time.Duration(timen))
+	//fmt.Println("job:" + m.ID + "over")
 	return nil
 }
 
@@ -37,7 +40,22 @@ func (m *workersp) GetTaskID() interface{} {
 func BenchmarkSPool(b *testing.B) {
 
 	//创建协程池
-	spool := NewSPool(1,  b.N,0,false)
+	spool := NewSPool(WORKER_NUM_100,  b.N,0,false)
+
+	//提交任务
+	for n := 0; n < b.N; n++ {
+		np := workersp{ID: strconv.Itoa(n)}
+		spool.Commit(&np)
+	}
+
+	spool.Release()
+}
+
+
+func BenchmarkWPool(b *testing.B) {
+
+	//创建协程池
+	spool := NewWPool(WORKER_NUM_100,  b.N,0,false)
 
 	//提交任务
 	for n := 0; n < b.N; n++ {

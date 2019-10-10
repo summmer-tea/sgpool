@@ -23,7 +23,7 @@ type SPool struct {
 	Debug       bool
 }
 
-// 协程池
+// 协程池 timeout=0 关闭超时统计 debug=true 打开模式
 func NewSPool(workerNum int, totalNum int, timeout int, debug bool) *SPool {
 	p := SPool{
 		workerNum: workerNum,
@@ -44,9 +44,8 @@ func (p *SPool) dispatch() {
 	for i := 0; i < p.workerNum; i++ {
 		//共享协程池
 		go func() {
-			// 收尾工作 容灾
+			//容灾
 			defer func() {
-
 				p.wg.Done()
 				if err := recover(); err != nil {
 					fmt.Println("task run err", err)
@@ -99,8 +98,29 @@ func (p *SPool) runtaskTimeout(wr WorkerInterface, timeout_ch chan interface{}) 
 
 }
 
-func (p *SPool) runtask(wr WorkerInterface) {
+
+func (p *SPool) runtaskTimeWithFunc(wr job, timeout_ch chan interface{}) {
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println("task error", err)
+		}
+	}()
 	//执行job里的任务
+	err := wr()
+
+	timeout_ch <- "ok"
+
+	if err != nil {
+		p.CountFail()
+		panic(err)
+	} else {
+		p.CountOk()
+	}
+
+}
+
+func (p *SPool) runtask(wr WorkerInterface) {
+	//执行job
 	err := wr.Task()
 	if err != nil {
 		p.CountFail()

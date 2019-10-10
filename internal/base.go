@@ -11,8 +11,18 @@ import (
 //}
 
 
+type Pool interface {
+	Commit()
+	Release()
+	CountFail()
+	CountOk()
+	CountOut()
+	Runtimelog()
+	dispatch()
 
-type job func()
+
+}
+type job func() error
 
 //任务接口
 type WorkerInterface interface {
